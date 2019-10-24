@@ -5,9 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"myapp/app/router"
-
-	"myapp/config"
+	"github.com/jeffhoelter/go-switch-eshopper/app/router"
+	"github.com/jeffhoelter/go-switch-eshopper/config"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 
 	address := fmt.Sprintf(":%d", appConf.Server.Port)
 
-	log.Prif("Starting server %s\n", address)
+	log.Printf("Starting server %s\n", address)
 
 	s := &http.Server{
 		Addr:         address,

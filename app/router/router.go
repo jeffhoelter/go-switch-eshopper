@@ -1,7 +1,7 @@
 package router
 
 import (
-	"myapp/app/app"
+	"github.com/jeffhoelter/go-switch-eshopper/app/app"
 
 	"github.com/go-chi/chi"
 )
