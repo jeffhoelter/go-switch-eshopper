@@ -1,15 +1,17 @@
 package config
 
 import (
-	"log"
 	"time"
 
 	"github.com/joeshaw/envdecode"
 )
 
+// Conf is an App configuration struct
 type Conf struct {
+	Debug  bool `env:"DEBUG,required"`
 	Server serverConf
 }
+
 type serverConf struct {
 	Port         int           `env:"SERVER_PORT,required"`
 	TimeoutRead  time.Duration `env:"SERVER_TIMEOUT_READ,required"`
@@ -17,10 +19,11 @@ type serverConf struct {
 	TimeoutIdle  time.Duration `env:"SERVER_TIMEOUT_IDLE,required"`
 }
 
+// AppConfig populates a Conf app configuration object
 func AppConfig() *Conf {
 	var c Conf
 	if err := envdecode.StrictDecode(&c); err != nil {
-		log.Fatalf("Failed to decode: %s", err)
+		//	main.Logger.Fatal().Err(err).Msg("Failed to decode: %s", err)
 	}
 	return &c
 }

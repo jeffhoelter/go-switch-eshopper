@@ -2,12 +2,15 @@ package router
 
 import (
 	"github.com/jeffhoelter/go-switch-eshopper/app/app"
+	"github.com/jeffhoelter/go-switch-eshopper/app/requestlog"
 
 	"github.com/go-chi/chi"
 )
 
-func New() *chi.Mux {
+// New creates a new Chi logger
+func New(a *app.App) *chi.Mux {
+	l := a.Logger()
 	r := chi.NewRouter()
-	r.MethodFunc("GET", "/", app.HandleIndex)
+	r.Method("GET", "/", requestlog.NewHandler(a.HandleIndex, l))
 	return r
 }

@@ -2,21 +2,26 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
+	"github.com/jeffhoelter/go-switch-eshopper/app/app"
 	"github.com/jeffhoelter/go-switch-eshopper/app/router"
 	"github.com/jeffhoelter/go-switch-eshopper/config"
+	lr "github.com/jeffhoelter/go-switch-eshopper/util/logger"
 )
 
 func main() {
 	appConf := config.AppConfig()
 
-	appRouter := router.New()
+	logger := lr.New(appConf.Debug)
+
+	application := app.New(logger)
+
+	appRouter := router.New(application)
 
 	address := fmt.Sprintf(":%d", appConf.Server.Port)
 
-	log.Printf("Starting server %s\n", address)
+	logger.Printf("Starting server %s\n", address)
 
 	s := &http.Server{
 		Addr:         address,
@@ -26,6 +31,6 @@ func main() {
 		IdleTimeout:  appConf.Server.TimeoutIdle,
 	}
 	if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatal("Server startup failed")
+		logger.Fatal().Err(err).Msg("Server startup failed")
 	}
 }
